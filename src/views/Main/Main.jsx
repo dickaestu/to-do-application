@@ -2,7 +2,12 @@ import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Container, Grid, Typography } from "@material-ui/core";
 import { connect } from "react-redux";
-import { getTask, createTask, updateTask } from "../../store/actions";
+import {
+  getTask,
+  createTask,
+  updateTask,
+  deleteTask,
+} from "../../store/actions";
 import { Tasks } from "../../components";
 
 const useStyles = makeStyles((theme) => ({
@@ -18,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Main = ({ getTask, task, createTask, updateTask }) => {
+const Main = ({ getTask, task, createTask, updateTask, deleteTask }) => {
   const classes = useStyles();
 
   useEffect(() => {
@@ -35,6 +40,7 @@ const Main = ({ getTask, task, createTask, updateTask }) => {
             task={task}
             createTask={createTask}
             updateTask={updateTask}
+            deleteTask={deleteTask}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -44,6 +50,7 @@ const Main = ({ getTask, task, createTask, updateTask }) => {
             task={task}
             createTask={createTask}
             updateTask={updateTask}
+            deleteTask={deleteTask}
           />
         </Grid>
       </Grid>
@@ -57,6 +64,9 @@ export const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { getTask, createTask, updateTask })(
-  Main
-);
+export default connect(mapStateToProps, {
+  getTask,
+  createTask,
+  updateTask,
+  deleteTask,
+})(Main);

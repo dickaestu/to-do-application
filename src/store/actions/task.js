@@ -79,3 +79,15 @@ export const updateTask = (data, list) => (dispatch) => {
     payload: list,
   });
 };
+
+export const deleteTask = (data, list, index) => (dispatch) => {
+  dispatch({
+    type: SET_TASK_START,
+  });
+
+  list.splice(index, 1);
+  dispatch({
+    type: SET_TASK_SUCCESS,
+    payload: list,
+  });
+};

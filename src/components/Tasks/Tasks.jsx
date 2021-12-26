@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Tasks = (props) => {
-  const { title, status, task, createTask, updateTask } = props;
+  const { title, status, task, createTask, updateTask, deleteTask } = props;
   const [dialogForm, setDialogForm] = useState({
     open: false,
     data: null,
@@ -72,7 +72,7 @@ const Tasks = (props) => {
               .fill("a")
               .map((_, index) => <Skeleton height={40} key={index} />)
           ) : task.data.length > 0 ? (
-            newData.map((val) => {
+            newData.map((val, index) => {
               return (
                 <ListItem button key={val.id}>
                   <ListItemText
@@ -94,6 +94,7 @@ const Tasks = (props) => {
                               data: val,
                               action: updateTask,
                               list: task.data,
+                              index: index,
                             });
                           }}
                         >
@@ -133,6 +134,7 @@ const Tasks = (props) => {
       <DialogForm
         dialog={dialogForm}
         onClose={() => setDialogForm({ open: false, data: null, action: null })}
+        deleteTask={deleteTask}
       />
     </Card>
   );

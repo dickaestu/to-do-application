@@ -12,8 +12,10 @@ import {
   TextField,
   Box,
   TextareaAutosize,
+  Tooltip,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -76,7 +78,7 @@ const validationSchema = yup.object().shape({
   description: yup.string().required("Required"),
 });
 
-const DialogForm = ({ dialog, onClose }) => {
+const DialogForm = ({ dialog, onClose, deleteTask }) => {
   const classes = useStyles();
   const { register, errors, handleSubmit, setValue, control } = useForm({
     resolver: yupResolver(validationSchema),
@@ -100,6 +102,12 @@ const DialogForm = ({ dialog, onClose }) => {
     }
   };
 
+  const onDelete = () => {
+    if (dialog.data !== null) {
+      deleteTask(dialog.data, dialog.list, dialog.index);
+    }
+  };
+
   useEffect(() => {
     if (dialog.data !== null) {
       setValue("title", dialog.data.title);
@@ -117,6 +125,18 @@ const DialogForm = ({ dialog, onClose }) => {
           {dialog.data === null ? "Add" : "Edit"} Task
         </DialogTitle>
         <DialogContent dividers>
+          {dialog.data !== null && dialog.data.status === 0 && (
+            <Tooltip title="Delete">
+              <IconButton
+                onClick={() => {
+                  onDelete();
+                }}
+                color="secondary"
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          )}
           <TextField
             fullWidth
             className={classes.field}
