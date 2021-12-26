@@ -1,3 +1,3 @@
 export { setAlert, removeAlert } from "./alert";
 
-export { getTask } from "./task";
+export { getTask, createTask, updateTask } from "./task";
