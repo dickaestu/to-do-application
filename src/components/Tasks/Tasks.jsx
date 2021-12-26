@@ -32,12 +32,21 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       textDecoration: "line-through",
     },
+    cursor: "pointer",
   },
-  listDone: {},
+  listDone: { cursor: "pointer" },
 }));
 
 const Tasks = (props) => {
-  const { title, status, task, createTask, updateTask, deleteTask } = props;
+  const {
+    title,
+    status,
+    task,
+    createTask,
+    updateTask,
+    deleteTask,
+    changeStatusTask,
+  } = props;
   const [dialogForm, setDialogForm] = useState({
     open: false,
     data: null,
@@ -51,6 +60,10 @@ const Tasks = (props) => {
       return val.status === status;
     });
   }
+
+  const changeStatus = (data, list) => {
+    changeStatusTask(data, list);
+  };
 
   return (
     <Card>
@@ -72,42 +85,63 @@ const Tasks = (props) => {
               .fill("a")
               .map((_, index) => <Skeleton height={40} key={index} />)
           ) : task.data.length > 0 ? (
-            newData.map((val, index) => {
-              return (
-                <ListItem button key={val.id}>
-                  <ListItemText
-                    className={clsx({
-                      [classes.listProgress]: status === 0,
-                      [classes.listDone]: status === 1,
-                    })}
-                  >
-                    <Box display="flex" justifyContent="space-between">
-                      <Box>
-                        <Typography variant="body1">{val.title}</Typography>
-                        <Typography variant="body2">{val.createdAt}</Typography>
-                      </Box>
-                      <Tooltip title="Edit">
-                        <IconButton
+            newData.length > 0 ? (
+              newData.map((val, index) => {
+                return (
+                  <ListItem key={val.id}>
+                    <ListItemText>
+                      <Box display="flex" justifyContent="space-between">
+                        <Box
+                          className={clsx({
+                            [classes.listProgress]: status === 0,
+                            [classes.listDone]: status === 1,
+                          })}
                           onClick={() => {
-                            setDialogForm({
-                              open: true,
-                              data: val,
-                              action: updateTask,
-                              list: task.data,
-                              index: index,
-                            });
+                            changeStatus(val, task.data);
                           }}
                         >
-                          <EditIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </Box>
-                  </ListItemText>
-                </ListItem>
-              );
-            })
+                          <Typography variant="body1">{val.title}</Typography>
+                          <Typography variant="body2">
+                            {val.createdAt}
+                          </Typography>
+                        </Box>
+                        <Tooltip title="Edit">
+                          <IconButton
+                            onClick={() => {
+                              setDialogForm({
+                                open: true,
+                                data: val,
+                                action: updateTask,
+                                list: task.data,
+                                index: index,
+                              });
+                            }}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+                    </ListItemText>
+                  </ListItem>
+                );
+              })
+            ) : (
+              <ListItem>
+                <ListItemText>
+                  <Typography align="center" variant="subtitle1">
+                    There is no data...
+                  </Typography>
+                </ListItemText>
+              </ListItem>
+            )
           ) : (
-            <li>Data Tidak Tersedia</li>
+            <ListItem>
+              <ListItemText>
+                <Typography align="center" variant="subtitle1">
+                  There is no data...
+                </Typography>
+              </ListItemText>
+            </ListItem>
           )}
         </List>
       </CardContent>

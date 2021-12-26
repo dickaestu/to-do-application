@@ -105,6 +105,7 @@ const DialogForm = ({ dialog, onClose, deleteTask }) => {
   const onDelete = () => {
     if (dialog.data !== null) {
       deleteTask(dialog.data, dialog.list, dialog.index);
+      onClose();
     }
   };
 

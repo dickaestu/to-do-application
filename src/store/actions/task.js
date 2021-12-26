@@ -58,6 +58,8 @@ export const createTask = (data, list) => (dispatch) => {
     type: SET_TASK_SUCCESS,
     payload: list,
   });
+
+  dispatch(setAlert("Success create task", "success"));
 };
 
 export const updateTask = (data, list) => (dispatch) => {
@@ -78,6 +80,8 @@ export const updateTask = (data, list) => (dispatch) => {
     type: SET_TASK_SUCCESS,
     payload: list,
   });
+
+  dispatch(setAlert("Success update task", "success"));
 };
 
 export const deleteTask = (data, list, index) => (dispatch) => {
@@ -86,6 +90,27 @@ export const deleteTask = (data, list, index) => (dispatch) => {
   });
 
   list.splice(index, 1);
+  dispatch({
+    type: SET_TASK_SUCCESS,
+    payload: list,
+  });
+
+  dispatch(setAlert("Success delete task", "success"));
+};
+
+export const changeStatusTask = (data, list) => (dispatch) => {
+  dispatch({
+    type: SET_TASK_START,
+  });
+
+  const update = (data, value) => {
+    const existingItem = data.find((item) => item.id === value.id);
+
+    existingItem.status = existingItem.status === 0 ? 1 : 0;
+  };
+
+  update(list, data);
+
   dispatch({
     type: SET_TASK_SUCCESS,
     payload: list,

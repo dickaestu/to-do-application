@@ -7,6 +7,7 @@ import {
   createTask,
   updateTask,
   deleteTask,
+  changeStatusTask,
 } from "../../store/actions";
 import { Tasks } from "../../components";
 
@@ -23,7 +24,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Main = ({ getTask, task, createTask, updateTask, deleteTask }) => {
+const Main = ({
+  getTask,
+  task,
+  createTask,
+  updateTask,
+  deleteTask,
+  changeStatusTask,
+}) => {
   const classes = useStyles();
 
   useEffect(() => {
@@ -41,6 +49,7 @@ const Main = ({ getTask, task, createTask, updateTask, deleteTask }) => {
             createTask={createTask}
             updateTask={updateTask}
             deleteTask={deleteTask}
+            changeStatusTask={changeStatusTask}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -51,6 +60,7 @@ const Main = ({ getTask, task, createTask, updateTask, deleteTask }) => {
             createTask={createTask}
             updateTask={updateTask}
             deleteTask={deleteTask}
+            changeStatusTask={changeStatusTask}
           />
         </Grid>
       </Grid>
@@ -69,4 +79,5 @@ export default connect(mapStateToProps, {
   createTask,
   updateTask,
   deleteTask,
+  changeStatusTask,
 })(Main);
