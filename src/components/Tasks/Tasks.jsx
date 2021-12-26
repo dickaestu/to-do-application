@@ -59,6 +59,16 @@ const Tasks = (props) => {
     newData = task.data.filter((val) => {
       return val.status === status;
     });
+
+    if (status === 0) {
+      newData.sort((a, b) => {
+        return new Date(a.createdAt) - new Date(b.createAt);
+      });
+    } else {
+      newData.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createAt);
+      });
+    }
   }
 
   const changeStatus = (data, list) => {
